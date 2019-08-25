@@ -134,7 +134,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     List<List<VirtualKeyboardKey>> keyboardRows =
         type == VirtualKeyboardType.Numeric
             ? _getKeyboardRowsNumeric()
-            : _getKeyboardRows();
+            :type == VirtualKeyboardType.Special?_getKeyboardRowsSpecials() : _getKeyboardRows();
 
     // Generate keyboard row.
     List<Widget> rows = List.generate(keyboardRows.length, (int rowNum) {
