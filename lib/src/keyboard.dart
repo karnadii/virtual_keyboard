@@ -101,7 +101,11 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    return type == VirtualKeyboardType.Numeric ? _numeric() : _alphanumeric();
+    return type == VirtualKeyboardType.Numeric
+        ? _numeric()
+        : type == VirtualKeyboardType.Special
+            ? _specials()
+            : _alphanumeric();
   }
 
   Widget _alphanumeric() {
@@ -127,14 +131,26 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       ),
     );
   }
-
+  Widget _specials() {
+      return Container(
+      height: height,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: _rows(),
+      ),
+    );
+  }
   /// Returns the rows for keyboard.
   List<Widget> _rows() {
     // Get the keyboard Rows
     List<List<VirtualKeyboardKey>> keyboardRows =
         type == VirtualKeyboardType.Numeric
             ? _getKeyboardRowsNumeric()
-            :type == VirtualKeyboardType.Special?_getKeyboardRowsSpecials() : _getKeyboardRows();
+            : type == VirtualKeyboardType.Special
+                ? _getKeyboardRowsSpecials()
+                : _getKeyboardRows();
 
     // Generate keyboard row.
     List<Widget> rows = List.generate(keyboardRows.length, (int rowNum) {
@@ -198,7 +214,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         onKeyPress(key);
       },
       child: Container(
-        height: height / _keyRows.length,
+        height: height / 2,
         child: Center(
             child: Text(
           alwaysCaps
@@ -281,4 +297,6 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       ),
     );
   }
+
+
 }

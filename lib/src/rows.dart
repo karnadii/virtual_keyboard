@@ -9,16 +9,20 @@ const List<List> _keySpecial = [
     'ṅ',
     'ṇ',
     'ś',
+    // 'ḷ',
+    'zwnj'
+  ],
+  const [
     'š',
     'ṣ',
     'ḥ',
-  ],
-  const [
     'ŕ',
     'ā',
     'ī',
     'ū',
-  ],
+    //  'ṛ',
+    'zwj'
+  ]
 ];
 
 /// Keys for Virtual Keyboard's rows.
@@ -142,6 +146,21 @@ List<VirtualKeyboardKey> _getKeyboardRowKeys(rowNum) {
   });
 }
 
+List<VirtualKeyboardKey> _getKeyboardRowKeysSpecial(rowNum) {
+  // Generate VirtualKeyboardKey objects for each row.
+  return List.generate(_keySpecial[rowNum].length, (int keyNum) {
+    // Get key string value.
+    String key = _keySpecial[rowNum][keyNum];
+
+    // Create and return new VirtualKeyboardKey object.
+    return VirtualKeyboardKey(
+      text: key,
+      capsText: key.toUpperCase(),
+      keyType: VirtualKeyboardKeyType.String,
+    );
+  });
+}
+
 /// Returns a list of VirtualKeyboard rows with `VirtualKeyboardKey` objects.
 List<List<VirtualKeyboardKey>> _getKeyboardRows() {
   // Generate lists for each keyboard row.
@@ -253,19 +272,8 @@ List<List<VirtualKeyboardKey>> _getKeyboardRowsSpecials() {
 
     // We have to add Action keys to keyboard.
     switch (rowNum) {
-      // case 3:
-      //   // String keys.
-      //   rowKeys.addAll(_getKeyboardRowKeysNumeric(rowNum));
-
-      //   // Right Shift
-      //   rowKeys.add(
-      //     VirtualKeyboardKey(
-      //         keyType: VirtualKeyboardKeyType.Action,
-      //         action: VirtualKeyboardKeyAction.Backspace),
-      //   );
-      //   break;
       default:
-        rowKeys = _getKeyboardRowKeys(rowNum);
+        rowKeys = _getKeyboardRowKeysSpecial(rowNum);
     }
 
     return rowKeys;
